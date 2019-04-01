@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createEdge } from './actions/simpleAction';
+import { createEdge } from './actions/actions';
 import { bindActionCreators } from "redux"
 
 
@@ -59,6 +59,9 @@ class EdgeForm extends React.Component {
             <input type="number" name="tNode" value={this.state.toNode} onChange= {this.handleToNode.bind(this)}/>
           </label>
           <input type="submit" value="Submit" />
+          <div>
+            (hovering over a node will reveal its node #)
+          </div>
         </form>
       );
     }

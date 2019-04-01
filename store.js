@@ -9,40 +9,28 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import initialState from './initialstate';
 
 
-const store = {
+
+const InitialState = {
   nodes: [
   {
       id:1,
-      nodeType: "server",
+      nodeType: "router",
+      imageType: "",
   },
-  {
-      id:2,
-      nodeType: "server",
-  },
-  {
-      id: 3,
-      nodeType: "server",
-  },
-  {
-      id: 4,
-      nodeType: "server",
-  }
 ],
+   nodeLength: 1,
 // data on the current battle
-links: [
-  {
-      id:1,
-      fromNode: 1,
-      toNode: 2,
-  }
-]
+edges: [
+  
+],
+  edgeLength: 0,
 };
 
-console.log(store)
-export default function configureStore(preloadedState=store) {
+
+export default function configureStore(preloadedState=InitialState) {
  return createStore(
    rootReducer,
    initialState,
-   composeWithDevTools(applyMiddleware(thunk)
- ));
+   composeWithDevTools(applyMiddleware(thunk))
+   );
 }

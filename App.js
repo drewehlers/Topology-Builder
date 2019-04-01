@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import './App.css';
-import { simpleAction, createServerNode, createEdge, createFirewallNode, createRouterNode } from './actions/simpleAction';
+import { simpleAction, createServerNode, createEdge, createFirewallNode, createRouterNode } from './actions/actions';
 import TopologyFullView from './TopologyFullView';
 import EdgeForm from './EdgeForm';
 import MyNetwork from './MyNetwork';
 import NodeCreator from './NodeCreator';
-import NodeList from './NodeList'
+import NodeList from './NodeList';
+import TopologySaver from './TopologySaver';
+import serversvg from './images/server.svg';
+import firewalljpg from './images/firewall.jpg';
+import MyGraph from './MyGraph';
+
 
 /* 
  * mapDispatchToProps
@@ -47,33 +52,23 @@ class App extends Component {
   }
  render() {
   return (
-   <div className="Topology">
+   <div className="Topology Builder">
+   
+    <div className="Containter">
+    <div className="Left">
+    Welcome to our Topology Builder!
     <MyNetwork/>
-    <TopologyFullView/>
+    {/* <TopologyFullView/> */}
     <EdgeForm/>
     <NodeCreator/>
+    <TopologySaver/>
+    </div>
+    <div className="Right" >
     <NodeList/>
-    {/* <NodeCreator/> */}
-    {/* <button onClick={this.createServerNode}>Test adding a Node action</button>
-    <button onClick={this.createRouterNode}>Test adding a Node action</button>
-    <button onClick={this.createFirewallNode}>Test adding a Node action</button>
-    <button onClick={this.createEdge}>Test adding a Edge action</button>
-    <header className="App-header">
-     <img src={logo} className="App-logo" alt="logo" />
-     <h1 className="App-title">Welcome to React</h1>
-    </header>
-    <p className="App-intro">
-    <pre>
-      {
-        JSON.stringify(this.props)
-      }
-      </pre>
-    <button onClick={this.simpleAction}>Test redux action</button>
-   
-    
-    
-    </p> */}
-   </div>
+    </div>
+    <div id="clear" ></div>
+    </div>
+     </div>
   );
  }
 }

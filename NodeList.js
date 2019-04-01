@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Network, Node, Edge } from '@lifeomic/react-vis-network';
 import { connect } from 'react-redux';
 import NodeDescription from './NodeDescription';
 
@@ -23,32 +22,38 @@ class NodeList extends Component {
   constructor(props)  {
     
     super(props);
+
+    this.state = {
+      nodes: this.props.topologyReducer.nodes,
+      edges: this.props.topologyReducer.edges,
+      servers: this.props.topologyReducer.servers
     }
-    
+    }
+
+    componentWillReceiveProps(nextProps) {
+      this.setState({
+        nodes : nextProps.topologyReducer.nodes,
+        edges: nextProps.topologyReducer.edges,
+        servers: nextProps.topologyReducer.servers
+    });
+  }
     
     nodes(){
       
-        const nodesItems = this.props.topologyReducer.nodes.map((node) =>
-            <NodeDescription key= {node.id} id={node.id} nodeType={node.nodeType}/>
+        const nodesItems = this.state.servers.map((node) =>
+            <NodeDescription key= {node.id} id={node.id} nodeType={node.nodeType} imageType={node.imageType}/>
         );
         
         return (
-            <>
+            <>  <div>
+              Server Information
+            </div>
                 {nodesItems}
             </>
         );
     }
 
-  edges(){
-      
-      const edgesItems = this.props.topologyReducer.edges.map((edge) => ({id:edge.id, fromNode:edge.fromNode, toNode:edge.toNode}))
-      
-      return (
-          <>
-              {edgesItems}
-          </>
-      );
-  }
+  
   
     
   render() {
