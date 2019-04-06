@@ -23,6 +23,8 @@ const mapDispatchToProps = dispatch => ({
   const mapStateToProps = state => ({
     nodes: state.nodes,
     edges: state.edges,
+    routers: state.routers,
+    servers: state.servers,
     ...state
   })
   
@@ -56,13 +58,12 @@ var options = {
       "hierarchical": {
           "direction": "UD",
           "sortMethod": "directed",
-          "nodeSpacing": 200,
-          "treeSpacing": 400
+
       }
   },
   "interaction": {
       "dragNodes": false,
-      "dragView": "false",
+      // "dragView": false,
       // "zoomView": "false",
 
   },
@@ -71,6 +72,9 @@ var options = {
           "type": "continuous"
       }
   }};
+
+
+  
   
 class MyNetwork extends Component {
   constructor(props)  {
@@ -78,8 +82,10 @@ class MyNetwork extends Component {
     super(props);
     this.networkref = React.createRef();
     this.state = {
+      routers: this.props.topologyReducer.routers,
       nodes: this.props.topologyReducer.nodes,
       edges: this.props.topologyReducer.edges,
+      servers: this.props.topologyReducer.servers,
     }
     }
 
@@ -92,7 +98,9 @@ class MyNetwork extends Component {
       
       this.setState({
         nodes : nextProps.topologyReducer.nodes,
-        edges: nextProps.topologyReducer.edges
+        edges: nextProps.topologyReducer.edges,
+        routers: nextProps.topologyReducer.routers,
+        servers: nextProps.topologyReducer.servers
     });
     var Network = this.refs.MyNetwork;
     
@@ -103,8 +111,7 @@ class MyNetwork extends Component {
           hierarchical: {
               direction: "UD",
               sortMethod: "directed",
-              nodeSpacing: 200,
-              treeSpacing: 400
+              
           }
       },
       interaction: {
@@ -141,17 +148,33 @@ class MyNetwork extends Component {
       this.state.nodes.map((node) => {
         
       if (node.nodeType=="router") {
-        nodesItems.push(<Node key= {node.id} id={node.id} label={node.nodeType} title={node.id} component={CustomIcon} icon={MdRouter} color="black" />);
+        this.state.routers.map((router) =>{
+        if (router.nodeid==node.id) {
+          var routerid=router.id.toString();
+          var labelname="Router "
+          var routerlabel=labelname+routerid
+          
+          nodesItems.push(<Node key= {node.id} id={node.id} label={routerlabel} component={CustomIcon} icon={MdRouter} color="black"/>);
+        }}
+        );
+        
       }
       if (node.nodeType=="firewall") {
-        nodesItems.push(<Node key= {node.id} id={node.id} label={node.nodeType}  title={node.id} component={CustomIcon} icon={FaFire} color="black"/>);
+        nodesItems.push(<Node key= {node.id} id={node.id} label={node.nodeType}  component={CustomIcon} icon={FaFire} color="black"/>);
       }
       if (node.nodeType=="server") {
-        nodesItems.push(<Node key= {node.id} id={node.id} label={node.nodeType}  title={node.id} component={CustomIcon} icon={MdComputer} color="black"/>);
+        this.state.servers.map((server) =>{
+          if (server.nodeid==node.id) {
+            var serverid=server.id.toString();
+            var labelname="Server "
+            var serverlabel=labelname+serverid
+        nodesItems.push(<Node key= {node.id} id={node.id} label={serverlabel}  component={CustomIcon} icon={MdComputer} color="black"/>);
       }}
+        );
+    }})
       
+      console.log(nodesItems, "node items")
       
-      );
       return (
         <>
             {nodesItems}

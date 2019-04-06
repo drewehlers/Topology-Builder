@@ -1,4 +1,4 @@
-import {SIMPLE_ACTION, CREATE_SERVER_NODE, CREATE_EDGE, CREATE_ROUTER_NODE, CREATE_FIREWALL_NODE, FETCH_NODE_DATA_FAILURE, FETCH_NODE_DATA_SUCCESS, FETCH_NODE_DATA_REQUEST, FETCH_TEMPLATES_FAILURE, FETCH_TEMPLATES_SUCCESS, FETCH_TEMPLATES_REQUEST,} from './constants'
+import {SIMPLE_ACTION, CHANGE_EDIT_MODE, CREATE_SERVER_NODE, CREATE_EDGE, CREATE_ROUTER_NODE, CREATE_SEPERATE_ROUTER_NODE, CREATE_FIREWALL_NODE, FETCH_NODE_DATA_FAILURE, FETCH_NODE_DATA_SUCCESS, FETCH_NODE_DATA_REQUEST, FETCH_TEMPLATES_FAILURE, FETCH_TEMPLATES_SUCCESS, FETCH_TEMPLATES_REQUEST} from './constants'
 import customData from './jsontest.js'
 
 export const simpleAction = () => dispatch => {
@@ -15,12 +15,20 @@ export const simpleAction = () => dispatch => {
     imageType
   });
 
-  export const createRouterNode = () => ({
+  export const createRouterNode = (fromNode, toNode) => ({
     type: CREATE_ROUTER_NODE,
+    fromNode,
+    toNode
   });
+
+  export const createSeperateRouterNode = () => ({
+    type: CREATE_SEPERATE_ROUTER_NODE,
+  });
+
   export const createFirewallNode = () => ({
     type: CREATE_FIREWALL_NODE,
   });
+
 
   export const createEdge = (fromNode, toNode) => ({
     type: CREATE_EDGE,
@@ -54,6 +62,9 @@ export const simpleAction = () => dispatch => {
   export const fetchTemplatesFailure = error => ({
     type: FETCH_TEMPLATES_FAILURE,
     error,
+  });
+  export const changeEditMode = () => ({
+    type: CHANGE_EDIT_MODE,
   });
 //    export const createServerNode = () => dispatch => {
 //     dispatch({
